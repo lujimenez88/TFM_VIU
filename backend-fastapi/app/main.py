@@ -1,11 +1,22 @@
+# backend-fastapi/app/main.py
 from fastapi import FastAPI
-from routes import drones
+from app.api import detecciones, drones
+from fastapi.middleware.cors import CORSMiddleware
+
+# Crear tablas (solo si no existen)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Incluir routers externos
-app.include_router(drones.router)
+# CORS: permitir frontend local
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Reemplaza con tu dominio real en prod
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/")
-def read_root():
-    return {"message": "Backend FastAPI funcionando!"}
+# Incluir rutas
+app.include_router(detecciones.router, prefix="/detecciones", tags=["Detecciones"])
+app.include_router(drones.router, prefix="/drones", tags=["Drones"])
