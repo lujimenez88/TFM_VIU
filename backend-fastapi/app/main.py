@@ -3,9 +3,6 @@ from fastapi import FastAPI
 from app.api import detecciones, drones
 from fastapi.middleware.cors import CORSMiddleware
 
-# Crear tablas (solo si no existen)
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
 
 # CORS: permitir frontend local

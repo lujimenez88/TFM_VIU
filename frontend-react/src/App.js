@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import VerMapa from './pages/VerMapa';
+import InferenciaManual from './pages/InferenciaManual';
+import DashboardBI from './pages/DashboardBI';
+import './App.css'; // Nos aseguramos de importar los estilos
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <nav className="navbar">
+        <div className="navbar-logo">☕ CoffeeAI</div>
+        <ul className="navbar-links">
+          <li><Link to="/">Inicio</Link></li>
+          <li><Link to="/ver-mapa">Ver Mapa</Link></li>
+          <li><Link to="/inferencia-manual">Inferencia Manual</Link></li>
+          <li><Link to="/dashboard-bi">Dashboard BI</Link></li>
+        </ul>
+      </nav>
+
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/ver-mapa" element={<VerMapa />} />
+          <Route path="/inferencia-manual" element={<InferenciaManual />} />
+          <Route path="/dashboard-bi" element={<DashboardBI />} />
+        </Routes>
+      </div>
     </div>
   );
 }

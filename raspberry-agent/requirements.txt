@@ -1,0 +1,6 @@
+paho-mqtt
+tflite-runtime
+numpy
+Pillow
+python-dotenv
+requests
