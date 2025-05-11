@@ -56,6 +56,7 @@ def inferir_en_imagen(image, input_size, threshold, class_names):
 def procesar_parches_o_redimensionar(image, threshold, altura, fov, resolucion_h, objetivo_cm=15, return_image=False):
     width, height = image.size
     detecciones = []
+    resolucion_h=width
     resolucion_px_por_m = calcular_resolucion_espacial(resolucion_h, altura, fov)
 
     # Escalado global de la imagen de entrada

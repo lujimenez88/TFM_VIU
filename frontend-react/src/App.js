@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import VerMapa from './pages/VerMapa';
-import InferenciaManual from './pages/InferenciaManual';
+import CargarManual from './pages/CargarManual';
 import DashboardBI from './pages/DashboardBI';
 import './App.css'; // Nos aseguramos de importar los estilos
 
@@ -23,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/ver-mapa" element={<VerMapa />} />
-          <Route path="/inferencia-manual" element={<InferenciaManual />} />
+          <Route path="/inferencia-manual" element={<CargarManual />} />
           <Route path="/dashboard-bi" element={<DashboardBI />} />
         </Routes>
       </div>

@@ -11,7 +11,6 @@ const ImagenConDetecciones = ({ imageUrl, boundingBoxes = [] }) => {
 
     img.crossOrigin = "anonymous"; // Necesario si usas signed URLs desde otro dominio
     img.src = imageUrl;
-    console.log(imageUrl, boundingBoxes);
     img.onload = () => {
       // Ajustar el tamaño del canvas a la imagen
       canvas.width = img.width;
@@ -31,7 +30,7 @@ const ImagenConDetecciones = ({ imageUrl, boundingBoxes = [] }) => {
         // Texto (clase + confianza)
         ctx.font = '14px Arial';
         ctx.fillStyle = class_name === 'healthy' ? 'green' : 'red';
-        ctx.fillText(`${class_name} (${confidence.toFixed(2)})`, x1, y1 - 5);
+        ctx.fillText(`${class_name} (${confidence.toFixed(2)})`, x1+5, y1 + 15);
       });
     };
 

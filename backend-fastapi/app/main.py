@@ -1,6 +1,6 @@
 # backend-fastapi/app/main.py
 from fastapi import FastAPI
-from app.api import detecciones, drones
+from app.api import detecciones, drones, inferencia
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -17,3 +17,4 @@ app.add_middleware(
 # Incluir rutas
 app.include_router(detecciones.router, prefix="/detecciones", tags=["Detecciones"])
 app.include_router(drones.router, prefix="/drones", tags=["Drones"])
+app.include_router(inferencia.router, prefix="/inferencia", tags=["Inferencia"])

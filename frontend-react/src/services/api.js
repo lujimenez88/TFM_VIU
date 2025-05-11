@@ -4,7 +4,6 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';;
 
 export const getDetecciones = async () => {
   const response = await axios.get(`${API_BASE_URL}/detecciones/job/1`);
-  console.log(response.data);
   return response.data;
 };
 
@@ -25,3 +24,11 @@ export const obtenerDetalleDeteccion = async (idDeteccion) => {
     return null;
   }
 };
+export async function cargarImagenManual(data) {
+  const response = await fetch(`${API_BASE_URL}/inferencia/manual`, {
+    method: 'POST',
+    body: data // debe ser FormData
+  });
+  if (!response.ok) throw new Error('Error en la inferencia');
+  return await response.json();
+}

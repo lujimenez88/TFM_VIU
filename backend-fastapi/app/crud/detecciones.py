@@ -178,3 +178,56 @@ def obtener_detalle_por_deteccion(id_deteccion: int):
     finally:
         cur.close()
         conn.close()
+
+def insertar_deteccion_manual(geolocation, image_path, origen="manual", job_id=1):
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        sql = """
+            INSERT INTO detecciones (timestamp, geolocation, image_path, origen, job_id)
+            VALUES (NOW(), %s, %s, %s, %s)
+            RETURNING id;
+        """
+        cur.execute(sql, (
+            str(geolocation) if geolocation else None,
+            image_path,
+            origen,
+            job_id
+        ))
+        id_deteccion = cur.fetchone()[0]
+        conn.commit()
+        return id_deteccion
+    except Exception as e:
+        print("❌ ERROR en insertar_deteccion:", e)
+        conn.rollback()
+        raise
+    finally:
+        cur.close()
+        conn.close()
+    
+
+def insertar_detalle_deteccion(id_deteccion, class_name, confidence, x1, y1, x2, y2):
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        sql = """
+            INSERT INTO detalle_detecciones (id_deteccion, class_name, confidence, x1, y1, x2, y2)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        cur.execute(sql, (
+                            int(id_deteccion),
+                            str(class_name),
+                            float(confidence),
+                            float(x1),
+                            float(y1),
+                            float(x2),
+                            float(y2)
+                        ))
+        conn.commit()
+    except Exception as e:
+        print("❌ ERROR en insertar_deteccion:", e)
+        conn.rollback()
+        raise
+    finally:
+        cur.close()
+        conn.close()

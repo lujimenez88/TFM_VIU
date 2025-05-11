@@ -18,7 +18,7 @@ const VerMapa = () => {
         .then(response => {
           setDetecciones(response);
           if (response.length > 0) {
-            setSelectedDeteccion(response[0]);
+            //setSelectedDeteccion(response[0]);
           }
         })
         .catch(error => console.error("Error cargando detecciones:", error));
@@ -54,9 +54,9 @@ const VerMapa = () => {
 
       <MapContainer center={[4.6352, -74.0820]} zoom={12} style={{ height: "600px", width: "100%" }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {selectedDeteccion && (
+        {/* {selectedDeteccion && (
           <CentrarEnDeteccion coordenadas={[selectedDeteccion.lat, selectedDeteccion.lon]} />
-        )}
+        )} */}
         {detecciones.map((det) => (
           <Marker
             key={det.id}

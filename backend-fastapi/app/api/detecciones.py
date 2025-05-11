@@ -61,7 +61,8 @@ def get_detalle_deteccion(id_deteccion: int):
         raise HTTPException(status_code=404, detail="Detección no encontrada")
 
     # Convertir a modelos y generar URL S3
-    url_s3 = generar_url_s3_firmada(detalle["image_path"])  # Lo veremos abajo
+    object_key='detecciones/'+detalle["image_path"]
+    url_s3 = generar_url_s3_firmada(object_key)  # Lo veremos abajo
     return DeteccionDetalle(
         image_url=url_s3,
         detalles=[BoundingBox(**d) for d in detalle["detalles"]]
