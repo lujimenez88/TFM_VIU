@@ -1,0 +1,107 @@
+/* theme.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+:root {
+  --font-primary: 'Montserrat', sans-serif;
+  --color-bg: #f6f5f2;
+  --color-text: #333;
+  --color-accent: #6a4e42;
+  --color-light: #ffe7c2;
+  --color-hover: #d5c1b1;
+  --border-radius: 8px;
+  --transition: 0.3s ease;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, #fefefe, #f6f3f0);
+  color: var(--color-text);
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-accent);
+  padding: 1rem 2rem;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.navbar-logo {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-light);
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-links a {
+  color: var(--color-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.navbar-links a:hover {
+  text-decoration: underline;
+}
+
+/* Inputs & Controls */
+input, textarea, select {
+  font-family: var(--font-primary);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  background: white;
+  transition: var(--transition);
+  font-size: 14px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 10px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 4px var(--color-accent);
+}
+
+button {
+  font-family: var(--font-primary);
+  background-color: var(--color-accent);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+button:hover {
+  background-color: var(--color-hover);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}

@@ -29,7 +29,7 @@ const ImagenConDetecciones = ({ imageUrl, boundingBoxes = [] }) => {
 
         // Texto (clase + confianza)
         ctx.font = '14px Arial';
-        ctx.fillStyle = class_name === 'healthy' ? 'black' : 'black';
+        ctx.fillStyle = class_name === 'healthy' ? 'green' : 'red';
         ctx.fillText(`${class_name} (${confidence.toFixed(2)})`, x1+5, y1 + 15);
       });
     };
