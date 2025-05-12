@@ -4,6 +4,7 @@ import { getDetecciones, obtenerDetalleDeteccion } from "../services/api";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import ImagenConDetecciones from '../components/ImagenConDetecciones';
+import FiltrosDetecciones from '../components/FiltrosDetecciones';
 import CentrarEnDeteccion from "../components/CentrarEnDeteccion";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -11,8 +12,9 @@ const VerMapa = () => {
   const [detecciones, setDetecciones] = useState([]);
   const [selectedDeteccion, setSelectedDeteccion] = useState(null);
   const [detalleSeleccionado, setDetalleSeleccionado] = useState(null);
+  const [filtros, setFiltros] = useState({});
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchData = () => {
       getDetecciones()
         .then(response => {
@@ -22,12 +24,25 @@ const VerMapa = () => {
           }
         })
         .catch(error => console.error("Error cargando detecciones:", error));
-    };
-
+    };*/
+    useEffect(() => {
+      const fetchData = () => {
+        getDetecciones(filtros)
+          .then(response => {
+            setDetecciones(response);
+            // setSelectedDeteccion(response[0]); (si aplica)
+          })
+          .catch(error => console.error("Error cargando detecciones:", error));
+      };
     fetchData();
     const interval = setInterval(fetchData, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [filtros]);
+
+  const handleFiltrar = (valores) => {
+    setFiltros(valores);
+    // Puedes también aquí llamar al backend usando los filtros
+  };
 
   const iconHealthy = new L.Icon({
     iconUrl: "/icons/icono-verde.png",
@@ -46,7 +61,7 @@ const VerMapa = () => {
   return (
     <div>
       <h2 style={{ textAlign: "center" }}>📍 Mapa de Detecciones</h2>
-
+      <FiltrosDetecciones onFiltrar={handleFiltrar} />
       <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "10px" }}>
         <input type="text" value={selectedDeteccion ? selectedDeteccion.timestamp : ""} placeholder="Fecha" readOnly />
         <input type="text" value={selectedDeteccion ? `${selectedDeteccion.lat}, ${selectedDeteccion.lon}` : ""} placeholder="Coordenadas" readOnly />

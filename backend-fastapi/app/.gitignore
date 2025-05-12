@@ -1,0 +1,14 @@
+# Ignorar archivos de entorno
+.env
+
+# Archivos temporales
+*.pyc
+__pycache__/
+*.log
+*.tmp
+
+# VSCode / IDEs
+.vscode/
+.idea/
+
+

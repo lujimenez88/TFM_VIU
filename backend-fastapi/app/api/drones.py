@@ -26,6 +26,7 @@ def update_dron(mac: str, dron: DronIn):
         raise HTTPException(status_code=404, detail="Dron no encontrado")
     drones.actualizar_dron(mac, dron)
     return DronOut(**drones.obtener_dron_por_mac(mac))
+    
 @router.get("/", response_model=List[DronOut])
 def listar_drones():
     rows = drones.obtener_todos_los_drones()

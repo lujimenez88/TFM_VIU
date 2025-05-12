@@ -76,3 +76,47 @@ def obtener_todos_los_drones():
     cur.close()
     conn.close()
     return rows
+
+def obtener_drones():
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT id, mac FROM drones ORDER BY id")
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return [{"id": row[0], "mac": row[1]} for row in rows]
+    except Exception as e:
+        return {"error": str(e)}
+
+def obtener_jobs(dron_id=None):
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+
+        if dron_id:
+            cur.execute("SELECT id, nombre, dron_id FROM jobs WHERE dron_id = %s ORDER BY id", (dron_id,))
+        else:
+            cur.execute("SELECT id, nombre, dron_id FROM jobs ORDER BY id")
+
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return [{"id": row[0], "nombre": row[1], "dron_id": row[2]} for row in rows]
+    except Exception as e:
+        return {"error": str(e)}
+
+def obtener_origenes_por_job(job_id):
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT DISTINCT origen FROM detecciones WHERE job_id = %s ORDER BY origen",
+            (job_id,)
+        )
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return [row[0] for row in rows]
+    except Exception as e:
+        return {"error": str(e)}

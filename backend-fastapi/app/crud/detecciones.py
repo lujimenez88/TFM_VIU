@@ -135,6 +135,71 @@ def obtener_detecciones_por_job(job_id: int):
         cur.close()
         conn.close()
 
+def obtener_detecciones_filtradas(job_id=None, dron_id=None, origen=None):
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        condiciones = []
+        params = []
+
+        if job_id is not None:
+            condiciones.append("d.job_id = %s")
+            print('job', job_id)
+            params.append(job_id)
+        if dron_id is not None:
+            condiciones.append("j.dron_id = %s")
+            print('dron', dron_id)
+            params.append(dron_id)
+        if origen is not None:
+            condiciones.append("d.origen = %s")
+            print('origen',origen)
+            params.append(str(origen))
+
+        where_sql = "WHERE " + " AND ".join(condiciones) if condiciones else ""
+
+        sql = f'''
+            SELECT 
+                d.id,
+                d.timestamp,
+                d.geolocation,
+                d.image_path,
+                CASE 
+                    WHEN COUNT(CASE WHEN dd.class_name != 'healthy' THEN 1 END) > 0 THEN false
+                    ELSE true
+                END AS es_sano
+            FROM 
+                detecciones d
+            LEFT JOIN 
+                detalle_detecciones dd ON d.id = dd.id_deteccion
+            LEFT JOIN 
+                jobs j ON d.job_id = j.id
+            {where_sql}
+            GROUP BY 
+                d.id, d.timestamp, d.geolocation, d.image_path
+            ORDER BY d.timestamp DESC
+        '''
+        
+        cur.execute(sql, params)
+        rows = cur.fetchall()
+        
+        return [
+            {
+                "id": row[0],
+                "timestamp": row[1],
+                "geolocation": row[2],
+                "image_path": row[3],
+                "es_sano": row[4]
+            }
+            for row in rows
+        ]
+    except Exception as e:
+        print("❌ ERROR en obtener_detecciones_filtradas:", e)
+        raise
+    finally:
+        cur.close()
+        conn.close()
+
+
 def obtener_detalle_por_deteccion(id_deteccion: int):
     conn = get_connection()
     cur = conn.cursor()

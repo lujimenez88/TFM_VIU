@@ -1,5 +1,5 @@
 # --- app/api/detecciones.py ---
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from typing import List
 from app.models import DeteccionIn, DeteccionOut, DeteccionResumen, DeteccionDetalle, BoundingBox
 from app.crud import detecciones
@@ -37,6 +37,30 @@ def post_deteccion(d: DeteccionIn):
 @router.get("/job/{job_id}", response_model=List[DeteccionResumen])
 def get_detecciones_por_job(job_id: int):
     rows = detecciones.obtener_detecciones_por_job(job_id)
+    resultado = []
+    for row in rows:
+        try:
+            lat, lon = json.loads(row["geolocation"])
+        except:
+            lat, lon = None, None
+        resultado.append(DeteccionResumen(
+            id=row["id"],
+            timestamp=str(row["timestamp"]),
+            lat=lat,
+            lon=lon,
+            image_path=row["image_path"],
+            es_sano=row["es_sano"]
+        ))
+    return resultado
+
+# 🔹 GET detecciones filtrables por job, dron, origen
+@router.get("/filtro", response_model=List[DeteccionResumen])
+def get_detecciones_filtradas(
+    job_id: int = Query(None),
+    dron_id: int = Query(None),
+    origen: str = Query(None)
+):
+    rows = detecciones.obtener_detecciones_filtradas(job_id=job_id, dron_id=dron_id, origen=origen)
     resultado = []
     for row in rows:
         try:

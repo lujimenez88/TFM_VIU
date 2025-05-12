@@ -17,7 +17,7 @@ MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
 MQTT_PORT = int(os.getenv("MQTT_PORT", 1883))
 MQTT_TOPIC = os.getenv("MQTT_TOPIC_IMAGENES", "dron/imagenes")
 MQTT_TOPIC_CONTROL = os.getenv("MQTT_TOPIC_CONTROL", "dron/frecuencia")
-CARPETA_BASE = os.getenv("CARPETA_IMAGENES", os.getcwd())
+CARPETA_BASE = os.getcwd()#os.getenv("CARPETA_IMAGENES", os.getcwd())
 SUBCARPETAS = os.getenv("SUBCARPETAS", "PruebaLive").split(",")
 IMAGENES_ENVIO = int(os.getenv("IMAGENES_ENVIO", 5))
 

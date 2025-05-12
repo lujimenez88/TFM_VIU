@@ -56,3 +56,16 @@ class BoundingBox(BaseModel):
 class DeteccionDetalle(BaseModel):
     image_url: str
     detalles: list[BoundingBox]
+
+class JobIn(BaseModel):
+    nombre: str
+    descripcion: Optional[str] = None
+    dron_id: int
+
+class JobOut(JobIn):
+    id: int
+    estado: str
+
+class JobUpdate(BaseModel):
+    dron_id: Optional[int] = None
+    estado: Optional[str] = None
