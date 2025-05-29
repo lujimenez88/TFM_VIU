@@ -39,12 +39,13 @@ def evaluar_frecuencia(frecuencia_actual, mac=None):
         nueva_frecuencia = max(FRECUENCIA_MIN, frecuencia_actual // 2)
     else:
         nueva_frecuencia = min(FRECUENCIA_MAX, frecuencia_actual + 5)
-    #print(nueva_frecuencia, frecuencia_actual)
+    
+    # 🛰️ Publicar nueva frecuencia al dron
+    client.publish(TOPIC_CONTROL, str(nueva_frecuencia), retain=True)
+    
     if nueva_frecuencia != frecuencia_actual:
-        # 🛰️ Publicar nueva frecuencia al dron
-        client.publish(TOPIC_CONTROL, str(nueva_frecuencia), retain=True)
+        
         print(f"🧠 Nueva frecuencia enviada al dron: {nueva_frecuencia}s")
-
         # 💾 Actualizar localmente
         config=actualizar_config_local(frecuencia=nueva_frecuencia)
 

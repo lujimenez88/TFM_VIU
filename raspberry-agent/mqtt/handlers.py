@@ -6,7 +6,7 @@ import io
 import os
 from PIL import Image
 from core.inferencia import procesar_parches_o_redimensionar
-from core.inferencia_pytorch import procesar_parches_o_redimensionar_pytorch
+#from core.inferencia_pytorch import procesar_parches_o_redimensionar_pytorch
 from core.almacenamiento import insertar_deteccion, guardar_imagen_local
 from core.adaptacion import evaluar_frecuencia, detecciones_recientes
 from core.configuracion import cargar_configuracion
@@ -102,36 +102,36 @@ def on_message(client, userdata, msg):
             insertar_deteccion(class_name, class_confidence, [x1, y1, x2, y2], geolocalizacion, path_guardado)
             detecciones_recientes.append({"class_name": class_name,"confianza": class_confidence})
     
-    if (WITH_PYTORCHSCRIPT==1):
-        # Inferencia y tiempo PytorchScript
-        start_pytorch = time.time()
-        #Inferencia con Pytorch
-        detecciones, imagen_escalada = procesar_parches_o_redimensionar_pytorch(
-            image,
-            CONFIDENCE_THRESHOLD,
-            altura_imagen,
-            fov_horizontal,
-            resolucion_horizontal,
-            objeto_cm,
-            return_image=True
-        )
-        end_pytorch = time.time()
-        tiempo_pytorch=end_pytorch-start_pytorch
-        print("Tiempo para PytorchScript: ",tiempo_pytorch,"\n")
-        mejores_por_clase = {}
-        for det in detecciones:
-            x1, y1, x2, y2, class_name, class_confidence = det
-            if class_name not in mejores_por_clase or class_confidence > mejores_por_clase[class_name][1]:
-                mejores_por_clase[class_name] = ([x1, y1, x2, y2], class_confidence)
+    # if (WITH_PYTORCHSCRIPT==1):
+        ##Inferencia y tiempo PytorchScript
+        # start_pytorch = time.time()
+        ##Inferencia con Pytorch
+        # detecciones, imagen_escalada = procesar_parches_o_redimensionar_pytorch(
+            # image,
+            # CONFIDENCE_THRESHOLD,
+            # altura_imagen,
+            # fov_horizontal,
+            # resolucion_horizontal,
+            # objeto_cm,
+            # return_image=True
+        # )
+        # end_pytorch = time.time()
+        # tiempo_pytorch=end_pytorch-start_pytorch
+        # print("Tiempo para PytorchScript: ",tiempo_pytorch,"\n")
+        # mejores_por_clase = {}
+        # for det in detecciones:
+            # x1, y1, x2, y2, class_name, class_confidence = det
+            # if class_name not in mejores_por_clase or class_confidence > mejores_por_clase[class_name][1]:
+                # mejores_por_clase[class_name] = ([x1, y1, x2, y2], class_confidence)
 
-        for i, (class_name, (bbox, class_confidence)) in enumerate(mejores_por_clase.items()):
-            if i >= 5:
-                break
-            x1, y1, x2, y2 = bbox
+        # for i, (class_name, (bbox, class_confidence)) in enumerate(mejores_por_clase.items()):
+            # if i >= 5:
+                # break
+            # x1, y1, x2, y2 = bbox
 
-            print(f"    🔍 Objeto detectado: {class_name}, Confianza: {class_confidence:.2f}")
-            print(f"    📦 Caja delimitadora: ({x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f})")
-            print(f"    📍 Ubicación geográfica del dron: {geolocalizacion}\n")
+            # print(f"    🔍 Objeto detectado: {class_name}, Confianza: {class_confidence:.2f}")
+            # print(f"    📦 Caja delimitadora: ({x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f})")
+            # print(f"    📍 Ubicación geográfica del dron: {geolocalizacion}\n")
     
     
     

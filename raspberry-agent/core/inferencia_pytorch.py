@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from core.caracterizacion import calcular_resolucion_espacial
 
-MODEL_PATH = os.getenv("TORCH_MODEL_PATH", "modelos/mi_modelo.pt")
+MODEL_PATH = os.getenv("TORCH_MODEL_PATH", "modelos/mi_modelo.torchscript")
 LABELS_PATH = os.getenv("LABELS_PATH", "modelos/labels.txt")
 
 # Cargar modelo TorchScript
