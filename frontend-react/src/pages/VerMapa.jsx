@@ -14,30 +14,27 @@ const VerMapa = () => {
   const [detalleSeleccionado, setDetalleSeleccionado] = useState(null);
   const [filtros, setFiltros] = useState({});
 
-  /*useEffect(() => {
-    const fetchData = () => {
-      getDetecciones()
-        .then(response => {
-          setDetecciones(response);
-          if (response.length > 0) {
-            //setSelectedDeteccion(response[0]);
-          }
-        })
-        .catch(error => console.error("Error cargando detecciones:", error));
-    };*/
-    useEffect(() => {
-      const fetchData = () => {
-        getDetecciones(filtros)
-          .then(response => {
-            setDetecciones(response);
-            // setSelectedDeteccion(response[0]); (si aplica)
-          })
-          .catch(error => console.error("Error cargando detecciones:", error));
-      };
-    fetchData();
-    const interval = setInterval(fetchData, 5000);
-    return () => clearInterval(interval);
+
+  useEffect(() => {
+    const cargar = async () => {
+      try {
+        const res = await getDetecciones(filtros);
+        //console.log("📦 Detecciones recibidas:", res);
+        if (Array.isArray(res)) {
+          setDetecciones(res);
+        } else {
+          //console.warn("⚠️ Detecciones NO es un array:", res);
+          setDetecciones([]); // fallback para evitar errores
+        }
+      } catch (e) {
+        console.error("❌ Error al cargar detecciones:", e.message);
+        setDetecciones([]);
+      }
+    };
+  
+    cargar();
   }, [filtros]);
+  
 
   const handleFiltrar = (valores) => {
     setFiltros(valores);
@@ -46,14 +43,14 @@ const VerMapa = () => {
 
   const iconHealthy = new L.Icon({
     iconUrl: "/icons/icono-verde.png",
-    iconSize: [30, 30],
+    iconSize: [50, 50],
     iconAnchor: [15, 30],
     popupAnchor: [0, -30]
   });
 
   const iconOther = new L.Icon({
     iconUrl: "/icons/icono-rojo.png",
-    iconSize: [30, 30],
+    iconSize: [50, 50],
     iconAnchor: [15, 30],
     popupAnchor: [0, -30]
   });

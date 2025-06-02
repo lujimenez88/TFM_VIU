@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 # CARGA DE VARIABLES .env
 # -------------------------
 load_dotenv()
-
+#25
 MQTT_BROKER = os.getenv("MQTT_BROKER", "192.168.0.25")
 MQTT_PORT = int(os.getenv("MQTT_PORT", 1883))
 MQTT_TOPIC = os.getenv("MQTT_TOPIC_IMAGENES", "dron/imagenes")

@@ -29,7 +29,12 @@ const CargarManual = () => {
   const handleImagenChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
+    
+    try{
     setPreview(URL.createObjectURL(file));
+    }catch{
+      setPreview();
+    }
   };
 
   const handleEnviar = async () => {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';;
-
+import { apiFetch } from '../services/api';
 
 const FiltrosDetecciones = ({ onFiltrar }) => {
   const [drones, setDrones] = useState([]);
@@ -9,24 +8,24 @@ const FiltrosDetecciones = ({ onFiltrar }) => {
   const [filtros, setFiltros] = useState({ dron_id: '', job_id: '', origen: '' });
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/disponibles/drones`)
-      .then(res => res.json())
+    apiFetch('/disponibles/drones')
       .then(data => setDrones(data))
       .catch(err => console.error("Error drones:", err));
   }, []);
 
   useEffect(() => {
-    const url = filtros.dron_id ? `${API_BASE_URL}/disponibles/jobs/?dron_id=${filtros.dron_id}` : `${API_BASE_URL}/disponibles/jobs/`;
-    fetch(url)
-      .then(res => res.json())
+    const url = filtros.dron_id
+      ? `/disponibles/jobs/?dron_id=${filtros.dron_id}`
+      : `/disponibles/jobs/`;
+
+    apiFetch(url)
       .then(data => setJobs(data))
       .catch(err => console.error("Error jobs:", err));
   }, [filtros.dron_id]);
 
   useEffect(() => {
     if (filtros.job_id) {
-      fetch(`${API_BASE_URL}/disponibles/origenes/?job_id=${filtros.job_id}`)
-        .then(res => res.json())
+      apiFetch(`/disponibles/origenes/?job_id=${filtros.job_id}`)
         .then(data => setOrigenes(data))
         .catch(err => console.error("Error origenes:", err));
     } else {

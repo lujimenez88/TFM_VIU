@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { getEstadisticasKPI, getEstadisticasClases, getEstadisticasTiempo } from '../services/api';
 import FiltrosDetecciones from '../components/FiltrosDetecciones';
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Legend, Line, PieChart, Pie, Cell
 } from 'recharts';
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';;
 
 const Dashboard = () => {
   const [filtros, setFiltros] = useState({});
@@ -14,23 +14,9 @@ const Dashboard = () => {
   const colores = ['#8884d8', '#82ca9d', '#ffc658', '#ff6e54', '#a4de6c'];
 
   useEffect(() => {
-    const query = new URLSearchParams(
-      Object.fromEntries(
-        Object.entries(filtros).filter(([_, val]) => val !== '' && val !== null)
-      )
-    ).toString();
-
-    fetch(`${API_BASE_URL}/estadisticas/kpi?${query}`)
-      .then(res => res.json())
-      .then(setKpis);
-
-    fetch(`${API_BASE_URL}/estadisticas/clases?${query}`)
-      .then(res => res.json())
-      .then(setPorClase);
-
-    fetch(`${API_BASE_URL}/estadisticas/tiempo?${query}`)
-      .then(res => res.json())
-      .then(setPorTiempo);
+    getEstadisticasKPI(filtros).then(setKpis);
+    getEstadisticasClases(filtros).then(setPorClase);
+    getEstadisticasTiempo(filtros).then(setPorTiempo);
   }, [filtros]);
 
   return (
@@ -102,6 +88,7 @@ const Dashboard = () => {
                 ))}
               </Pie>
               <Tooltip />
+              <Legend layout="vertical" verticalAlign="middle" align="right" />
             </PieChart>
           </ResponsiveContainer>
         </div>
